@@ -54,7 +54,7 @@ const token = "EAAKEtMO2qmkBAPoI2EHcoT2BKkAEu8jN0iDzxK9gzX33ZBl7yiTPRVV8qlLlvKgu
 
 function sendTextMessage(sender, text) {
 	let messageData = {
-		text: text,
+		// text: text,
 		attachment:{
 			type: "image",
 			payload:{
