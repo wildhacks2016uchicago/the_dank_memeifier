@@ -43,8 +43,9 @@ app.post('/webhook/', function(req, res) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		if (event.message && event.message.text) {
-			let text = event.message.text
-			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200).toUpperCase())
+			let text = event.message.text;
+			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200).toUpperCase());
+			sendImage(sender);
 		}
 	}
 	res.sendStatus(200)
@@ -54,7 +55,32 @@ const token = "EAAKEtMO2qmkBAPoI2EHcoT2BKkAEu8jN0iDzxK9gzX33ZBl7yiTPRVV8qlLlvKgu
 
 function sendTextMessage(sender, text) {
 	let messageData = {
-		// text: text,
+		text: text
+	}
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: {
+			access_token: token
+		},
+		method: 'POST',
+		json: {
+			recipient: {
+				id: sender
+			},
+			message: messageData,
+		}
+		// error handling
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
+
+function sendImage(sender) {
+	let messageData = {
 		attachment:{
 			type: "image",
 			payload:{
