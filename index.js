@@ -104,8 +104,7 @@ app.post('/webhook', function(req, res) {
 						} else {
 							sendTextMessage(sender, "~~~bad attachment~~~");
 						}
-					} 
-					if (event.message.text) {
+					} else if (event.message.text) {
 						user.sentText(event.message.text);
 					}
 				}
