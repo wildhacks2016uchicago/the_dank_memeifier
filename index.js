@@ -1,3 +1,7 @@
+// Tutorial that we used
+// https://github.com/jw84/messenger-bot-tutorial
+// hey wassup?
+
 'use strict'
 
 const express = require('express')
@@ -64,6 +68,7 @@ function sendTextMessage(sender, text) {
 			},
 			message: messageData,
 		}
+		// error handling
 	}, function(error, response, body) {
 		if (error) {
 			console.log('Error sending messages: ', error)
