@@ -32,30 +32,73 @@ app.get('/webhook/', function(req, res) {
 	res.send('Error, wrong token')
 })
 
+let USERS = {};
+
 // Spin up the server
 app.listen(app.get('port'), function() {
 	console.log('running on port', app.get('port'))
 })
+
+
+class User {
+	// STATES
+	// state 0: no input yet
+	// state 1: image sent
+
+	constructor(id) {
+		this.id = id;
+		this.state = 0;
+	}
+
+	sentText(text) {
+		if (this.state !== 1) {
+			sendTextMessage(this.id, "Please send an image first");
+			this.state = 0;
+			return;
+		}
+		this.text = text;
+		sendTextMessage(this.id, "Here you go");
+		const generatedImage = generateImage();
+		sendImage(this.id, generatedImage);
+		this.state = 0;
+	}
+
+	sentImage(url) {
+		this.state = 1;
+		this.inputImageURL = url;
+		sendTextMessage(this.id, "Got it. What text do you want to add?");
+	}
+
+	generateImage() {
+		if (state === 2) {
+			return this.inputImageURL;
+		}
+	}
+
+}
 
 app.post('/webhook/', function(req, res) {
 	let messaging_events = req.body.entry[0].messaging
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
+
 		if (event.message) {
+			USERS.sender = new User(id);
+			const user = USERS.sender;
+
 			let attachments = event.message.attachments;
 			if (attachments) {
 				let attachment = attachments[0];
 				if (attachment.type === "image") {
-					sendTextMessage(sender, "you sent an image");
+					user.sentImage(attachment.payload.url);
 					sendImage(sender, attachment.payload.url);
 				} else {
 					sendTextMessage(sender, "~~~bad attachment~~~");
 				}
 			} 
 			if (event.message.text) {
-				let text = event.message.text;
-				sendTextMessage(sender, "Hey! you said: " + text.substring(0, 200));
+				user.sentText(event.message.text);
 			}
 		}
 	}
@@ -120,3 +163,4 @@ function sendImage(sender, imageURL) {
 		}
 	})
 }
+
