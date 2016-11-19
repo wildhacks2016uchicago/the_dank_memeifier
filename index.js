@@ -70,9 +70,7 @@ class User {
 	}
 
 	generateImage() {
-		if (state === 2) {
-			return this.inputImageURL;
-		}
+		return this.inputImageURL;
 	}
 
 }
@@ -92,7 +90,6 @@ app.post('/webhook/', function(req, res) {
 				let attachment = attachments[0];
 				if (attachment.type === "image") {
 					user.sentImage(attachment.payload.url);
-					sendImage(sender, attachment.payload.url);
 				} else {
 					sendTextMessage(sender, "~~~bad attachment~~~");
 				}
