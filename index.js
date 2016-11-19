@@ -43,8 +43,9 @@ app.post('/webhook/', function(req, res) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
 		if (event.message) {
-			let attachment = event.message.attachments[0];
-			if (attachment) {
+			let attachments = event.message.attachments;
+			if (attachments) {
+				attachment = attachments[0];
 				if (attachment.type === "image") {
 					sendTextMessage(sender, "you sent an image");
 					sendImage(sender, attachment.payload.url);
@@ -52,7 +53,7 @@ app.post('/webhook/', function(req, res) {
 					sendTextMessage(sender, "~~~bad attachment~~~");
 				}
 			} 
-			if (event.message.text) {
+			hif (event.message.text) {
 				let text = event.message.text;
 				sendTextMessage(sender, "Hey! you said: " + text.substring(0, 200));
 			}
