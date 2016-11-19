@@ -53,15 +53,14 @@ class User {
 	sentText(text) {
 		if (this.state === 0) {
 			sendTextMessage(this.id, "Please send an image first");
-			this.state = 0;
 			return;
-		}
-		if (this.state === 1) {
+		} else if (this.state === 1) {
 			this.text = text;
 			sendTextMessage(this.id, "Here you go. You input text " + this.text);
 			const generatedImage = this.generateImage();
 			sendImage(this.id, generatedImage);
 			this.state = 0;
+			return;
 		}
 	}
 
