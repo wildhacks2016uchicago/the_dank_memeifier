@@ -45,7 +45,7 @@ app.post('/webhook/', function(req, res) {
 		if (event.message) {
 			let attachments = event.message.attachments;
 			if (attachments) {
-				attachment = attachments[0];
+				let attachment = attachments[0];
 				if (attachment.type === "image") {
 					sendTextMessage(sender, "you sent an image");
 					sendImage(sender, attachment.payload.url);
