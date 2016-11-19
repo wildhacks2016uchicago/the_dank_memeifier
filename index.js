@@ -51,7 +51,8 @@ app.post('/webhook/', function(req, res) {
 				} else {
 					sendTextMessage(sender, "~~~bad attachment~~~");
 				}
-			} else if (event.message.text) {
+			} 
+			if (event.message.text) {
 				let text = event.message.text;
 				sendTextMessage(sender, "Hey! you said: " + text.substring(0, 200));
 			}
