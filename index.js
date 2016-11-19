@@ -77,34 +77,43 @@ class User {
 
 }
 
-app.post('/webhook/', function(req, res) {
-	let messaging_events = req.body.entry[0].messaging
-	for (let i = 0; i < messaging_events.length; i++) {
-		let event = req.body.entry[0].messaging[i]
-		let sender = event.sender.id
+app.post('/webhook', function(req, res) {
+	var data = req.body;
 
-		if (event.message) {
-			if (!USERS.sender) {
-				USERS.sender = new User(sender);
-			}
-			let user = USERS.sender;
-			
+  // Make sure this is a page subscription
+  if (data.object === 'page') {
+		
+		// Iterate over each entry - there may be multiple if batched
+    data.entry.forEach(function(entry) {
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
 
-			let attachments = event.message.attachments;
-			if (attachments) {
-				let attachment = attachments[0];
-				if (attachment.type === "image") {
-					user.sentImage(attachment.payload.url);
-				} else {
-					sendTextMessage(sender, "~~~bad attachment~~~");
+      // Iterate over each messaging event
+      entry.messaging.forEach(function(event) {
+				let sender = event.sender.id;
+				if (event.message) {
+					if (!USERS.sender) {
+						USERS.sender = new User(sender);
+					}
+					let user = USERS.sender;
+
+					let attachments = event.message.attachments;
+					if (attachments) {
+						let attachment = attachments[0];
+						if (attachment.type === "image") {
+							user.sentImage(attachment.payload.url);
+						} else {
+							sendTextMessage(sender, "~~~bad attachment~~~");
+						}
+					} 
+					if (event.message.text) {
+						user.sentText(event.message.text);
+					}
 				}
-			} 
-			if (event.message.text) {
-				user.sentText(event.message.text);
-			}
-		}
+			});
+		});
 	}
-	res.sendStatus(200)
+	res.sendStatus(200);
 })
 
 const token = "EAAKEtMO2qmkBAPoI2EHcoT2BKkAEu8jN0iDzxK9gzX33ZBl7yiTPRVV8qlLlvKguH4euDQZCkfW1w7UkwH07oLZCK15T0g1PlZAJm0nAwaZCixAYHNGIZA8bovpdsyE93fwGFH1QZBkDsGiCHjQWqxtp4O1hxSbb3rggdjLRGt5nwZDZD"
