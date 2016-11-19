@@ -53,7 +53,7 @@ app.post('/webhook/', function(req, res) {
 				}
 			} else if (event.message.text) {
 				let text = event.message.text;
-				sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200).toUpperCase());
+				sendTextMessage(sender, "Hey! you said: " + text.substring(0, 200));
 			}
 		}
 	}
