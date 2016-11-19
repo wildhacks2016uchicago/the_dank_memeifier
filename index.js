@@ -42,10 +42,20 @@ app.post('/webhook/', function(req, res) {
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
-		if (event.message && event.message.text) {
-			let text = event.message.text;
-			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200).toUpperCase());
-			sendImage(sender);
+		if (event.message) {
+			let attachment = event.message.attachment;
+			if (attachment) {
+				if (attachment.type === "image") {
+					sendImage(sender, attachment.payload.url);
+				} else {
+					sendTextMessage(sender, "~~~bad attachment~~~");
+				}
+				
+			}
+			if (event.message.text) {
+				let text = event.message.text;
+				sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200).toUpperCase());
+			}
 		}
 	}
 	res.sendStatus(200)
@@ -79,12 +89,12 @@ function sendTextMessage(sender, text) {
 	})
 }
 
-function sendImage(sender) {
+function sendImage(sender, imageURL) {
 	let messageData = {
 		attachment:{
 			type: "image",
 			payload:{
-				url:"https://upload.wikimedia.org/wikipedia/commons/4/44/Bananas_white_background_DS.jpg"
+				url:imageURL
 			}
 		}
 	}
