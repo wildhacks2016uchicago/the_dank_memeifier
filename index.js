@@ -74,7 +74,7 @@ class User {
 
 	generateImage() {
 		// return this.inputImageURL;
-		return "therock.jpg";
+		return "https://salty-reaches-81322.herokuapp.com/images/biden.jpg";
 	}
 
 }
