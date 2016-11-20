@@ -93,10 +93,10 @@ app.post('/webhook', function(req, res) {
 				let sender = event.sender.id;
 				if (event.message) {
 					console.log("recieved message from user id " + sender);
-					if (!USERS.sender) {
-							USERS.sender = new User(sender);
+					if (!USERS[sender]) {
+							USERS[sender] = new User(sender);
 					}
-					let user = USERS.sender;
+					let user = USERS[sender];
 
 					let attachments = event.message.attachments;
 					if (attachments) {
