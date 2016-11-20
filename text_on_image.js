@@ -7,6 +7,7 @@ var gm = require('gm').subClass({
 });
 
 function text_on_image(original_picture, text, userid) {
+	console.log("about to resize");
 	var resize_promise = new Promise(function(resolve, reject) {
 		gm(original_picture)
 			.resize(200, 200)
