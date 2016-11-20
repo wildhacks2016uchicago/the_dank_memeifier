@@ -1,10 +1,10 @@
 // Set up imageMagick
 var Promise = require("bluebird");
 
-var fs = require('fs'),
-	gm = require('gm').subClass({
-		imageMagick: true
-	});
+var fs = require('fs');
+var gm = require('gm').subClass({
+	imageMagick: true
+});
 
 function text_on_image(original_picture, text, userid) {
 	var resize_promise = new Promise(function(resolve, reject) {
