@@ -27,7 +27,7 @@ function text_on_image(original_picture, text, userid) {
 			var height_white = 200;
 			gm(width_white, height_white, "white")
 				.append('static/images/' + userid + '-temp2.jpg').append(true)
-				.write('static/images/' + userid + '-temp3.jpg'), function(err) {
+				.write('static/images/' + userid + '-temp3.jpg', function(err) {
 					if (!err) {
 						resolve("Add White Stuff Worked!");
 						console.log('WORKED: Centered our image.\n');
