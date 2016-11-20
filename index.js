@@ -78,6 +78,8 @@ class User {
 		var file = fs.createWriteStream(this.inputImageFilename);
 		var request = https.get(url, function(response) {
 			response.pipe(file);
+		}).on('error', (e) => {
+			console.error(e);
 		});
 		sendTextMessage(this.id, "Got it. What text do you want to add?");
 	}
