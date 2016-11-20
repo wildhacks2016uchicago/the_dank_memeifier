@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 		res.send('Hello world, I am a chat bot')
 })
 
-app.use(express.static('images'))
+app.use(express.static('static'))
 
 // for Facebook verification
 app.get('/webhook/', function(req, res) {
