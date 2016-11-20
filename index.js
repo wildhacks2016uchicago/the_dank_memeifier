@@ -63,7 +63,7 @@ class User {
 			this.text = text;
 			sendTextMessage(this.id, "Here you go. You input text " + this.text);
 			text_on_image(this.inputImageFilename, this.text, this.id);
-			sendImage("https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png", this.id);
+			sendImage(this.id, "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
 			this.state = 0;
 			return;
 		}
