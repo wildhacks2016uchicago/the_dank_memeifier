@@ -32,7 +32,7 @@ app.get('/webhook/', function(req, res) {
 	res.send('Error, wrong token')
 })
 
-let USERS = {};
+let USERS = new Object();
 
 // Spin up the server
 app.listen(app.get('port'), function() {
