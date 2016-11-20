@@ -63,10 +63,9 @@ class User {
 			this.text = text;
 			// sendTextMessage(this.id, "Here you go. You input text " + this.text);
 			text_on_image(this.inputImageFilename, this.text, this.id);
-			const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id;
-			console.log("sending image to url " + url + "-output.png");
-			sendImage(this.id, url + "-output.png");
-			delete_pic();
+			const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
+			console.log("sending image to url " + url);
+			sendImage(this.id, url);
 			this.state = 0;
 			return;
 		}
@@ -78,38 +77,8 @@ class User {
 		var file = fs.createWriteStream(this.inputImageFilename);
 		var request = https.get(url, function(response) {
 			response.pipe(file);
-		}).on('error', (e) => {
-			console.error(e);
 		});
 		sendTextMessage(this.id, "Got it. What text do you want to add?");
-	}
-
-	remove_image() {
-		var path = "static/images/" + this.id;
-		fs.unlinkSync(path, function(err) {
-			if (err) {
-				console.log("file did not delete")
-			}
-		});
-	}
-
-	//call this function at the end after sending final pic to human. deletes all the pics used
-	delete_pic() {
-		var text_on_img = new Promise(function(resolve,reject) {
-			//body of entire text_on_image argument. can i just call this function?
-			var path = "static/images/" + this.id;
-		});
-		var del_pics = text_on_img.then(function(resolve, reject) {
-			// delete all pics here kittens1, 2, 3, 4 final
-			fs.unlinkSync(path, function(err) {
-			if (err) {
-				console.log("file did not delete")
-				}
-			});
-		});
-		return del_pics.then(function(resolve, reject) {
-			return text_on_img.value() + del_pics.value();
-		});
 	}
 
 	// generateImage() {
@@ -148,7 +117,6 @@ app.post('/webhook', function(req, res) {
 							if (attachment.type === "image") {
 									console.log("message type: image");
 									user.sentImage(attachment.payload.url);
-									user.remove_image()
 							} else {
 									sendTextMessage(sender, "~~~bad attachment~~~");
 							}
