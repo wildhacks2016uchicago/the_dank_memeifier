@@ -77,40 +77,40 @@ class User {
 }
 
 app.post('/webhook', function(req, res) {
-	var data = req.body;
+// 	var data = req.body;
 
-  // Make sure this is a page subscription
-  if (data.object === 'page') {
+//   // Make sure this is a page subscription
+//   if (data.object === 'page') {
 		
-		// Iterate over each entry - there may be multiple if batched
-    data.entry.forEach(function(entry) {
-      var pageID = entry.id;
-      var timeOfEvent = entry.time;
+// 		// Iterate over each entry - there may be multiple if batched
+//     data.entry.forEach(function(entry) {
+//       var pageID = entry.id;
+//       var timeOfEvent = entry.time;
 
-      // Iterate over each messaging event
-    //   entry.messaging.forEach(function(event) {
-	// 			let sender = event.sender.id;
-	// 			if (event.message) {
-	// 				if (!USERS.sender) {
-	// 					USERS.sender = new User(sender);
-	// 				}
-	// 				let user = USERS.sender;
+//       // Iterate over each messaging event
+//       entry.messaging.forEach(function(event) {
+// 				let sender = event.sender.id;
+// 				if (event.message) {
+// 					if (!USERS.sender) {
+// 						USERS.sender = new User(sender);
+// 					}
+// 					let user = USERS.sender;
 
-	// 				let attachments = event.message.attachments;
-	// 				if (attachments) {
-	// 					let attachment = attachments[0];
-	// 					if (attachment.type === "image") {
-	// 						user.sentImage(attachment.payload.url);
-	// 					} else {
-	// 						sendTextMessage(sender, "~~~bad attachment~~~");
-	// 					}
-	// 				} else if (event.message.text) {
-	// 					user.sentText(event.message.text);
-	// 				}
-	// 			}
-	// 		});
-	// 	});
-	// }
+// 					let attachments = event.message.attachments;
+// 					if (attachments) {
+// 						let attachment = attachments[0];
+// 						if (attachment.type === "image") {
+// 							user.sentImage(attachment.payload.url);
+// 						} else {
+// 							sendTextMessage(sender, "~~~bad attachment~~~");
+// 						}
+// 					} else if (event.message.text) {
+// 						user.sentText(event.message.text);
+// 					}
+// 				}
+// 			});
+// 		});
+// 	}
 	res.sendStatus(200);
 })
 
