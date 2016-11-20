@@ -64,7 +64,7 @@ class User {
 		} else if (this.state === 1) {
 			startTyping(this.id);
 			this.text = text;
-			var text_on_image_Promise = new Promise(function(resolve, reject) {
+			var text_on_image_Promise = new Promise((resolve, reject) => {
 				text_on_image(this.inputImageFilename, text, this.id);
 				const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
 				console.log("sending image to url " + url);
