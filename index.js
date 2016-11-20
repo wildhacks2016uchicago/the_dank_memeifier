@@ -83,11 +83,11 @@ class User {
 
 	remove_image() {
 		var path = "static/images/" + this.id;
-		fs.unlinkSync(path, (err) => {
+		fs.unlinkSync(path, function(err) {
 			if (err) {
 				console.log("file did not delete")
 			}
-		}
+		});
 	}
 
 	// generateImage() {
