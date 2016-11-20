@@ -11,6 +11,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const Promise = require("bluebird");
+
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -62,11 +64,17 @@ class User {
 		} else if (this.state === 1) {
 			startTyping(this.id);
 			this.text = text;
-			// sendTextMessage(this.id, "Here you go. You input text " + this.text);
-			text_on_image(this.inputImageFilename, this.text, this.id);
-			const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
-			console.log("sending image to url " + url);
-			sendImage(this.id, url);
+			var text_on_image_Promise = new Promise(function(resolve, reject) {
+				text_on_image(this.inputImageFilename, text, this.id);
+				const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
+				console.log("sending image to url " + url);
+			});
+			text_on_image_Promise.then(() => {
+				sendImage(this.id, url);
+			}).catch((reason) => {
+				// Log the rejection reason
+				console.log('Handle rejected promise ('+reason+') here.');
+			});
 			this.state = 0;
 			return;
 		}
