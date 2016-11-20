@@ -124,42 +124,42 @@ app.post('/webhook', function(req, res) {
 	console.log("recieved webhook");
 	var data = req.body;
 
-	// Make sure this is a page subscription
-	if (data.object === 'page') {
+	// // Make sure this is a page subscription
+	// if (data.object === 'page') {
 				
-		// Iterate over each entry - there may be multiple if batched
-		data.entry.forEach(function(entry) {
-			var pageID = entry.id;
-			var timeOfEvent = entry.time;
+	// 	// Iterate over each entry - there may be multiple if batched
+	// 	data.entry.forEach(function(entry) {
+	// 		var pageID = entry.id;
+	// 		var timeOfEvent = entry.time;
 
-			// Iterate over each messaging event
-			entry.messaging.forEach(function(event) {
-				let sender = event.sender.id;
-				if (event.message) {
-					console.log("recieved message from user id " + sender);
-					if (!USERS[sender]) {
-							USERS[sender] = new User(sender);
-					}
-					let user = USERS[sender];
+	// 		// Iterate over each messaging event
+	// 		entry.messaging.forEach(function(event) {
+	// 			let sender = event.sender.id;
+	// 			if (event.message) {
+	// 				console.log("recieved message from user id " + sender);
+	// 				if (!USERS[sender]) {
+	// 						USERS[sender] = new User(sender);
+	// 				}
+	// 				let user = USERS[sender];
 
-					let attachments = event.message.attachments;
-					if (attachments) {
-							let attachment = attachments[0];
-							if (attachment.type === "image") {
-									console.log("message type: image");
-									user.sentImage(attachment.payload.url);
-									user.remove_image()
-							} else {
-									sendTextMessage(sender, "~~~bad attachment~~~");
-							}
-					} else if (event.message.text) {
-							console.log("text message: '" + event.message.text + "'");
-							user.sentText(event.message.text);
-					}
-				}
-			});
-		});
-	}
+	// 				let attachments = event.message.attachments;
+	// 				if (attachments) {
+	// 						let attachment = attachments[0];
+	// 						if (attachment.type === "image") {
+	// 								console.log("message type: image");
+	// 								user.sentImage(attachment.payload.url);
+	// 								user.remove_image()
+	// 						} else {
+	// 								sendTextMessage(sender, "~~~bad attachment~~~");
+	// 						}
+	// 				} else if (event.message.text) {
+	// 						console.log("text message: '" + event.message.text + "'");
+	// 						user.sentText(event.message.text);
+	// 				}
+	// 			}
+	// 		});
+	// 	});
+	// }
 	res.sendStatus(200);
 })
 
