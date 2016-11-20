@@ -75,9 +75,10 @@ function text_on_image(original_picture, text, userid) {
 				});
 		})
 	});
-	return append_caption_image.then(function(resolve, reject) {
-		return resize_promise.value() + add_white_promise.value() + draw_caption_promise.value() + append_caption_image.value();
+	append_caption_image.then(function(resolve, reject) {
+		resize_promise.value() + add_white_promise.value() + draw_caption_promise.value() + append_caption_image.value();
 	});
+	return true;
 }
 
 module.exports = text_on_image;
