@@ -3,7 +3,10 @@
 // hey wassup?
 
 'use strict'
+import {text_on_image} from "text_on_image";
 
+const http = require('http');
+const fs = require('fs');
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
@@ -59,8 +62,8 @@ class User {
 		} else if (this.state === 1) {
 			this.text = text;
 			sendTextMessage(this.id, "Here you go. You input text " + this.text);
-			const generatedImage = this.generateImage();
-			sendImage(this.id, generatedImage);
+			const generatedImage = text_on_image(this.inputImageFile, this.text);
+			sendImage("https://salty-reaches-81322.herokuapp.com/images/" + FILENAME, generatedImage);
 			this.state = 0;
 			return;
 		}
@@ -68,14 +71,19 @@ class User {
 
 	sentImage(url) {
 		this.state = 1;
-		this.inputImageURL = url;
+		var file = fs.createWriteStream("static/images/" + this.id);
+		var request = http.get(url, function(response) {
+			response.pipe(file);
+		});
+		this.inputImageFile = file;
 		sendTextMessage(this.id, "Got it. What text do you want to add?");
 	}
 
-	generateImage() {
-		// return this.inputImageURL;
-		return "https://salty-reaches-81322.herokuapp.com/images/biden.jpg";
-	}
+	// generateImage() {
+	// 	// return this.inputImageURL;
+	// 	text_on_image();
+	// 	return "https://salty-reaches-81322.herokuapp.com/images/biden.jpg";
+	// }
 
 }
 
