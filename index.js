@@ -90,12 +90,17 @@ class User {
 		const replies = [
 		{
 			content_type:"text",
-			title:"Cool",
+			title:"c00lstoryjoe",
 			payload:"payload1"
 		},
 		{
 			content_type:"text",
-			title:"Meme",
+			title:"dank.jpg",
+			payload:"payload"
+		},
+		{
+			content_type:"text",
+			title:"wildhacks2016!!!",
 			payload:"payload"
 		}
 		]
