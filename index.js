@@ -64,9 +64,10 @@ class User {
 		} else if (this.state === 1) {
 			startTyping(this.id);
 			this.text = text;
+			img = text_on_image(this.inputImageFilename, text, this.id);
 			// var text_on_image_Promise = new Promise((resolve, reject) => {
 			// 	var img = text_on_image(this.inputImageFilename, text, this.id);
-			var gen_promise = Promise.resolve(() => {text_on_image(this.inputImageFilename, text, this.id);});
+			// var gen_promise = Promise.resolve(() => {text_on_image(this.inputImageFilename, text, this.id);});
 				// if (img === true) {
 				// resolve("making image worked");
 				// 	console.log('WORKED: Generating image.\n');
@@ -75,13 +76,13 @@ class User {
 				// 	console.log('ERROR: Image didn\'t generate.\n');
 				// }
 			// });
-			gen_promise.then(() => {
+			// gen_promise.then(() => {
 				console.log("sending image to url " + "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
 				sendImage(this.id, "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
-			}).catch((reason) => {
-				// Log the rejection reason
-				console.log('Handle rejected promise ('+reason+') here.');
-			});
+			// }).catch((reason) => {
+			// 	// Log the rejection reason
+			// 	console.log('Handle rejected promise ('+reason+') here.');
+			// });
 			this.state = 0;
 		}
 	}
