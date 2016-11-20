@@ -67,9 +67,9 @@ class User {
 			var text_on_image_Promise = new Promise((resolve, reject) => {
 				text_on_image(this.inputImageFilename, text, this.id);
 				const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
-				console.log("sending image to url " + url);
 			});
 			text_on_image_Promise.then(() => {
+				console.log("sending image to url " + url);
 				sendImage(this.id, url);
 			}).catch((reason) => {
 				// Log the rejection reason
