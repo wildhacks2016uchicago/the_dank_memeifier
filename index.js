@@ -5,7 +5,7 @@
 'use strict'
 const text_on_image = require('./text_on_image');
 
-const http = require('http');
+const http = require('https');
 const fs = require('fs');
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -72,7 +72,7 @@ class User {
 	sentImage(url) {
 		this.state = 1;
 		var file = fs.createWriteStream("static/images/" + this.id);
-		var request = http.get(url, function(response) {
+		var request = https.get(url, function(response) {
 			response.pipe(file);
 		});
 		this.inputImageFile = file;
