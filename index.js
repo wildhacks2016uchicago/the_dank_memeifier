@@ -13,7 +13,7 @@ app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-	extended: false
+		extended: false
 }))
 
 // Process application/json
@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function(req, res) {
-	res.send('Hello world, I am a chat bot')
+		res.send('Hello world, I am a chat bot')
 })
 
 // for Facebook verification
@@ -36,7 +36,7 @@ let USERS = {};
 
 // Spin up the server
 app.listen(app.get('port'), function() {
-	console.log('running on port', app.get('port'))
+		console.log('running on port', app.get('port'))
 })
 
 
@@ -77,40 +77,42 @@ class User {
 }
 
 app.post('/webhook', function(req, res) {
-// 	var data = req.body;
+	console.log("recieved webhook");
+	var data = req.body;
 
-//   // Make sure this is a page subscription
-//   if (data.object === 'page') {
-		
-// 		// Iterate over each entry - there may be multiple if batched
-//     data.entry.forEach(function(entry) {
-//       var pageID = entry.id;
-//       var timeOfEvent = entry.time;
+	// Make sure this is a page subscription
+	if (data.object === 'page') {
+				
+		// Iterate over each entry - there may be multiple if batched
+		data.entry.forEach(function(entry) {
+			var pageID = entry.id;
+			var timeOfEvent = entry.time;
 
-//       // Iterate over each messaging event
-//       entry.messaging.forEach(function(event) {
-// 				let sender = event.sender.id;
-// 				if (event.message) {
-// 					if (!USERS.sender) {
-// 						USERS.sender = new User(sender);
-// 					}
-// 					let user = USERS.sender;
+			// Iterate over each messaging event
+			entry.messaging.forEach(function(event) {
+				let sender = event.sender.id;
+				if (event.message) {
+					console.log("recieved message");
+					if (!USERS.sender) {
+							USERS.sender = new User(sender);
+					}
+					let user = USERS.sender;
 
-// 					let attachments = event.message.attachments;
-// 					if (attachments) {
-// 						let attachment = attachments[0];
-// 						if (attachment.type === "image") {
-// 							user.sentImage(attachment.payload.url);
-// 						} else {
-// 							sendTextMessage(sender, "~~~bad attachment~~~");
-// 						}
-// 					} else if (event.message.text) {
-// 						user.sentText(event.message.text);
-// 					}
-// 				}
-// 			});
-// 		});
-// 	}
+					let attachments = event.message.attachments;
+					if (attachments) {
+							let attachment = attachments[0];
+							if (attachment.type === "image") {
+									user.sentImage(attachment.payload.url);
+							} else {
+									sendTextMessage(sender, "~~~bad attachment~~~");
+							}
+					} else if (event.message.text) {
+							user.sentText(event.message.text);
+					}
+				}
+			});
+		});
+	}
 	res.sendStatus(200);
 })
 
@@ -164,7 +166,7 @@ function sendImage(sender, imageURL) {
 			message: messageData,
 		}
 		// error handling
-	}, function(error, response, body) {
+}, function(error, response, body) {
 		if (error) {
 			console.log('Error sending messages: ', error)
 		} else if (response.body.error) {
