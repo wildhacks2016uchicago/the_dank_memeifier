@@ -103,7 +103,7 @@ class User {
 			if (err) {
 				console.log("file did not delete")
 				}
-			}
+			});
 		});
 		return del_pics.then(function(resolve, reject) {
 			return text_on_img.value() + del_pics.value();
