@@ -81,6 +81,15 @@ class User {
 		sendTextMessage(this.id, "Got it. What text do you want to add?");
 	}
 
+	remove_image() {
+		var path = "static/images/" + this.id;
+		fs.unlinkSync(path, function(err) => {
+			if (err) {
+				console.log("file did not delete")
+			}
+		}
+	}
+
 	// generateImage() {
 	// 	// return this.inputImageURL;
 	// 	text_on_image();
@@ -117,6 +126,7 @@ app.post('/webhook', function(req, res) {
 							if (attachment.type === "image") {
 									console.log("message type: image");
 									user.sentImage(attachment.payload.url);
+									user.remove_image()
 							} else {
 									sendTextMessage(sender, "~~~bad attachment~~~");
 							}
