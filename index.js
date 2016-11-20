@@ -62,8 +62,8 @@ class User {
 		} else if (this.state === 1) {
 			this.text = text;
 			sendTextMessage(this.id, "Here you go. You input text " + this.text);
-			const generatedImage = text_on_image(this.inputImageFile, this.text);
-			sendImage("https://salty-reaches-81322.herokuapp.com/images/" + FILENAME, generatedImage);
+			const generatedImage = text_on_image(this.inputImageFile, this.text, this.id);
+			sendImage("https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png", generatedImage);
 			this.state = 0;
 			return;
 		}
