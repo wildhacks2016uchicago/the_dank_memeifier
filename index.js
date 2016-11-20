@@ -3,7 +3,7 @@
 // hey wassup?
 
 'use strict'
-const text_on_image = require('text_on_image');
+const text_on_image = require('./text_on_image');
 
 const http = require('http');
 const fs = require('fs');
