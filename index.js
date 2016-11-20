@@ -66,7 +66,7 @@ class User {
 			this.text = text;
 			var text_on_image_Promise = new Promise((resolve, reject) => {
 				var img = text_on_image(this.inputImageFilename, text, this.id);
-				if (img) {
+				if (img === true) {
 					resolve("making image worked");
 					console.log('WORKED: Generating image.\n');
 				} else {
