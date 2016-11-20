@@ -11,6 +11,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const Promise = require("bluebird");
+
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -60,14 +62,28 @@ class User {
 			sendTextMessage(this.id, "Please send an image first");
 			return;
 		} else if (this.state === 1) {
+			startTyping(this.id);
 			this.text = text;
-			// sendTextMessage(this.id, "Here you go. You input text " + this.text);
-			text_on_image(this.inputImageFilename, this.text, this.id);
-			const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
-			console.log("sending image to url " + url);
-			sendImage(this.id, url);
+			text_on_image(this.inputImageFilename, text, this.id);
+			// var text_on_image_Promise = new Promise((resolve, reject) => {
+			// 	var img = text_on_image(this.inputImageFilename, text, this.id);
+			// var gen_promise = Promise.resolve(() => {text_on_image(this.inputImageFilename, text, this.id);});
+				// if (img === true) {
+				// resolve("making image worked");
+				// 	console.log('WORKED: Generating image.\n');
+				// } else {
+				// 	reject(Error("generating image didn't work"));
+				// 	console.log('ERROR: Image didn\'t generate.\n');
+				// }
+			// });
+			// gen_promise.then(() => {
+				console.log("sending image to url " + "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
+				sendImage(this.id, "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
+			// }).catch((reason) => {
+			// 	// Log the rejection reason
+			// 	console.log('Handle rejected promise ('+reason+') here.');
+			// });
 			this.state = 0;
-			return;
 		}
 	}
 
@@ -78,7 +94,19 @@ class User {
 		var request = https.get(url, function(response) {
 			response.pipe(file);
 		});
-		sendTextMessage(this.id, "Got it. What text do you want to add?");
+		const replies = [
+		{
+			content_type:"text",
+			title:"Cool",
+			payload:"payload1"
+		},
+		{
+			content_type:"text",
+			title:"Meme",
+			payload:"payload"
+		}
+		]
+		sendTextMessage(this.id, "Got it. What text do you want to add?", replies);
 	}
 
 	// generateImage() {
@@ -133,9 +161,10 @@ app.post('/webhook', function(req, res) {
 
 const token = "EAAKEtMO2qmkBAPoI2EHcoT2BKkAEu8jN0iDzxK9gzX33ZBl7yiTPRVV8qlLlvKguH4euDQZCkfW1w7UkwH07oLZCK15T0g1PlZAJm0nAwaZCixAYHNGIZA8bovpdsyE93fwGFH1QZBkDsGiCHjQWqxtp4O1hxSbb3rggdjLRGt5nwZDZD"
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(sender, text, replies) {
 	let messageData = {
-		text: text
+		text: text,
+		quick_replies:replies ? replies : null
 	}
 	console.log("sending message '" + text + "' to user id " + sender)
 	request({
@@ -149,6 +178,7 @@ function sendTextMessage(sender, text) {
 				id: sender
 			},
 			message: messageData,
+			
 		}
 		// error handling
 	}, function(error, response, body) {
@@ -180,6 +210,30 @@ function sendImage(sender, imageURL) {
 				id: sender
 			},
 			message: messageData,
+		}
+		// error handling
+}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
+
+function startTyping(sender) {
+
+	request({
+		url: 'https://graph.facebook.com/v2.8/me/messages',
+		qs: {
+			access_token: token
+		},
+		method: 'POST',
+		json: {
+			recipient: {
+				id: sender
+			},
+			sender_action: "typing_on",
 		}
 		// error handling
 }, function(error, response, body) {
