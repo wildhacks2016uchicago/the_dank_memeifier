@@ -10,7 +10,7 @@ function text_on_image(original_picture, text, userid) {
 	var resize_promise = new Promise(function(resolve, reject) {
 		gm(original_picture)
 			.resize(200, 200)
-			.write('kittens2.jpg', function(err) {
+			.write('static/images/' + userid + '-temp2.jpg', function(err) {
 				if (!err) {
 					resolve("Resize Stuff worked!");
 					console.log('Resize Done');
@@ -26,8 +26,8 @@ function text_on_image(original_picture, text, userid) {
 			var width_white = 50;
 			var height_white = 200;
 			gm(width_white, height_white, "white")
-				.append('kittens2.jpg').append(true)
-				.write('kittens3.jpg', function(err) {
+				.append('static/images/' + userid + '-temp2.jpg').append(true)
+				.write('static/images/' + userid + '-temp3.jpg', function(err) {
 					if (!err) {
 						resolve("Add White Stuff Worked!");
 						console.log('WORKED: Centered our image.\n');
@@ -47,7 +47,7 @@ function text_on_image(original_picture, text, userid) {
 				.fontSize(18)
 				.font('Helvetica Neue')
 				.drawText(20, 20, text)
-				.write("writingsomething.jpg", function(err) {
+				.write('static/images/' + userid + '-temp4.jpg', function(err) {
 					if (!err) {
 						resolve("Draw caption worked!");
 						console.log('WORKED: Writing our caption.\n');
@@ -61,8 +61,8 @@ function text_on_image(original_picture, text, userid) {
 	});
 	var append_caption_image = draw_caption_promise.then(function(resolve, reject) {
 		return new Promise(function(resolve, reject) {
-			gm('writingsomething.jpg')
-				.append('kittens3.jpg')
+			gm('static/images/' + userid + '-temp4.jpg')
+				.append('static/images/' + userid + '-temp3.jpg')
 				.write('static/images/' + userid + '-output.png', function(err) {
 					if (!err) {
 						resolve("Append caption worked!");
