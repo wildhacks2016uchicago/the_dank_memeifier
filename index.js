@@ -83,7 +83,7 @@ class User {
 
 	remove_image() {
 		var path = "static/images/" + this.id;
-		fs.unlinkSync(path, function(err) => {
+		fs.unlinkSync(path, (err) => {
 			if (err) {
 				console.log("file did not delete")
 			}
