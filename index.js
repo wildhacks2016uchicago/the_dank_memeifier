@@ -71,7 +71,8 @@ class User {
 	}
 
 	generateImage() {
-		return this.inputImageURL;
+		// return this.inputImageURL;
+		return "therock.jpg";
 	}
 
 }
