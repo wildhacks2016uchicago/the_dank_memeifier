@@ -80,6 +80,8 @@ function text_on_image(original_picture, text, userid) {
 	});
 }
 
+module.exports = text_on_image;
+
 // main('therock.jpg', "this is rly dumb");
 
 //
