@@ -16,13 +16,17 @@ function resize_picture(original_picture) {
 function add_white(resized_picture) {
 	var width_white = 50;
 	var height_white = 200;
-
 	gm(width_white, height_white, "white")
 		.append('kittens2.jpg').append(true)
 		.write('kittens3.jpg', function(err) {
-			if (!err) console.log('WORKED: Centered our image.\n');
-			if (err) console.log('ERROR: Did not center image.\n');
+			if (!err) {
+				console.log('WORKED: Centered our image.\n');
+			}
+			if (err) {
+				console.log('ERROR: Did not center image.\n');
+			}
 		});
+}
 }
 
 function draw_caption(text) {
