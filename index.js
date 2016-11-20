@@ -60,6 +60,7 @@ class User {
 			sendTextMessage(this.id, "Please send an image first");
 			return;
 		} else if (this.state === 1) {
+			startTyping(this.id);
 			this.text = text;
 			// sendTextMessage(this.id, "Here you go. You input text " + this.text);
 			text_on_image(this.inputImageFilename, this.text, this.id);
@@ -180,6 +181,30 @@ function sendImage(sender, imageURL) {
 				id: sender
 			},
 			message: messageData,
+		}
+		// error handling
+}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
+}
+
+function startTyping(sender) {
+
+	request({
+		url: 'https://graph.facebook.com/v2.8/me/messages',
+		qs: {
+			access_token: token
+		},
+		method: 'POST',
+		json: {
+			recipient: {
+				id: sender
+			},
+			sender_action: "typing_on",
 		}
 		// error handling
 }, function(error, response, body) {
