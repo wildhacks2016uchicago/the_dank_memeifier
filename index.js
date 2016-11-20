@@ -92,7 +92,7 @@ app.post('/webhook', function(req, res) {
 			entry.messaging.forEach(function(event) {
 				let sender = event.sender.id;
 				if (event.message) {
-					console.log("recieved message");
+					console.log("recieved message from user id " + sender);
 					if (!USERS.sender) {
 							USERS.sender = new User(sender);
 					}
@@ -102,11 +102,13 @@ app.post('/webhook', function(req, res) {
 					if (attachments) {
 							let attachment = attachments[0];
 							if (attachment.type === "image") {
+									console.log("message type: image");
 									user.sentImage(attachment.payload.url);
 							} else {
 									sendTextMessage(sender, "~~~bad attachment~~~");
 							}
 					} else if (event.message.text) {
+							console.log("message type: text");
 							user.sentText(event.message.text);
 					}
 				}
