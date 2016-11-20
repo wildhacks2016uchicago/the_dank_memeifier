@@ -65,9 +65,16 @@ class User {
 			startTyping(this.id);
 			this.text = text;
 			var text_on_image_Promise = new Promise((resolve, reject) => {
-				text_on_image(this.inputImageFilename, text, this.id);
-				// url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
-				resolve("generated image");
+				text_on_image(this.inputImageFilename, text, this.id, function(err) {
+					if (!err) {
+						resolve("Draw caption worked!");
+						console.log('WORKED: Writing our caption.\n');
+					}
+					if (err) {
+						reject(Error("Add white didn't happen"));
+						console.log('ERROR: Caption didnt write.\n');
+					}
+				});
 			});
 			text_on_image_Promise.then(() => {
 				console.log("sending image to url " + "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png");
