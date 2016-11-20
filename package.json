@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/wildhacks2017uchicago/meme_stuf#readme",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "gm": "^1.23.0",
