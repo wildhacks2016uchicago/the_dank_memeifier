@@ -62,7 +62,7 @@ class User {
 		} else if (this.state === 1) {
 			this.text = text;
 			sendTextMessage(this.id, "Here you go. You input text " + this.text);
-			const generatedImage = text_on_image(this.inputImageFile, this.text, this.id);
+			text_on_image(this.inputImageFilename, this.text, this.id);
 			sendImage("https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png", generatedImage);
 			this.state = 0;
 			return;
@@ -71,11 +71,11 @@ class User {
 
 	sentImage(url) {
 		this.state = 1;
-		var file = fs.createWriteStream("static/images/" + this.id);
+		this.inputImageFilename = "static/images/" + this.id;
+		var file = fs.createWriteStream(this.inputImageFilename);
 		var request = https.get(url, function(response) {
 			response.pipe(file);
 		});
-		this.inputImageFile = file;
 		sendTextMessage(this.id, "Got it. What text do you want to add?");
 	}
 
