@@ -66,6 +66,7 @@ class User {
 			const url = "https://salty-reaches-81322.herokuapp.com/images/" + this.id + "-output.png";
 			console.log("sending image to url " + url);
 			sendImage(this.id, url);
+			delete_pic();
 			this.state = 0;
 			return;
 		}
@@ -87,6 +88,25 @@ class User {
 			if (err) {
 				console.log("file did not delete")
 			}
+		});
+	}
+
+	//call this function at the end after sending final pic to human. deletes all the pics used
+	delete_pic() {
+		var text_on_img = new Promise(function(resolve,reject) {
+			//body of entire text_on_image argument. can i just call this function?
+			var path = "static/images/" + this.id;
+		});
+		var del_pics = text_on_img.then(function(resolve, reject) {
+			// delete all pics here kittens1, 2, 3, 4 final
+			fs.unlinkSync(path, function(err) {
+			if (err) {
+				console.log("file did not delete")
+				}
+			}
+		});
+		return del_pics.then(function(resolve, reject) {
+			return text_on_img.value() + del_pics.value();
 		});
 	}
 
