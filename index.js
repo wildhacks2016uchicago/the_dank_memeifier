@@ -79,7 +79,19 @@ class User {
 		var request = https.get(url, function(response) {
 			response.pipe(file);
 		});
-		sendTextMessage(this.id, "Got it. What text do you want to add?");
+		const replies = [
+		{
+			content_type:"text",
+			title:"Cool",
+			payload:"payload1"
+		},
+		{
+			content_type:"text",
+			title:"Meme",
+			payload:"payload"
+		}
+		]
+		sendTextMessage(this.id, "Got it. What text do you want to add?", replies);
 	}
 
 	// generateImage() {
@@ -134,9 +146,10 @@ app.post('/webhook', function(req, res) {
 
 const token = "EAAKEtMO2qmkBAPoI2EHcoT2BKkAEu8jN0iDzxK9gzX33ZBl7yiTPRVV8qlLlvKguH4euDQZCkfW1w7UkwH07oLZCK15T0g1PlZAJm0nAwaZCixAYHNGIZA8bovpdsyE93fwGFH1QZBkDsGiCHjQWqxtp4O1hxSbb3rggdjLRGt5nwZDZD"
 
-function sendTextMessage(sender, text) {
+function sendTextMessage(sender, text, replies) {
 	let messageData = {
-		text: text
+		text: text,
+		quick_replies:replies ? replies : null
 	}
 	console.log("sending message '" + text + "' to user id " + sender)
 	request({
@@ -150,6 +163,7 @@ function sendTextMessage(sender, text) {
 				id: sender
 			},
 			message: messageData,
+			
 		}
 		// error handling
 	}, function(error, response, body) {
