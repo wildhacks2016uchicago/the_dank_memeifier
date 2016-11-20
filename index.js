@@ -24,6 +24,8 @@ app.get('/', function(req, res) {
 		res.send('Hello world, I am a chat bot')
 })
 
+app.use(express.static('images'))
+
 // for Facebook verification
 app.get('/webhook/', function(req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
