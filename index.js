@@ -88,29 +88,29 @@ app.post('/webhook', function(req, res) {
       var timeOfEvent = entry.time;
 
       // Iterate over each messaging event
-      entry.messaging.forEach(function(event) {
-				let sender = event.sender.id;
-				if (event.message) {
-					if (!USERS.sender) {
-						USERS.sender = new User(sender);
-					}
-					let user = USERS.sender;
+    //   entry.messaging.forEach(function(event) {
+	// 			let sender = event.sender.id;
+	// 			if (event.message) {
+	// 				if (!USERS.sender) {
+	// 					USERS.sender = new User(sender);
+	// 				}
+	// 				let user = USERS.sender;
 
-					let attachments = event.message.attachments;
-					if (attachments) {
-						let attachment = attachments[0];
-						if (attachment.type === "image") {
-							user.sentImage(attachment.payload.url);
-						} else {
-							sendTextMessage(sender, "~~~bad attachment~~~");
-						}
-					} else if (event.message.text) {
-						user.sentText(event.message.text);
-					}
-				}
-			});
-		});
-	}
+	// 				let attachments = event.message.attachments;
+	// 				if (attachments) {
+	// 					let attachment = attachments[0];
+	// 					if (attachment.type === "image") {
+	// 						user.sentImage(attachment.payload.url);
+	// 					} else {
+	// 						sendTextMessage(sender, "~~~bad attachment~~~");
+	// 					}
+	// 				} else if (event.message.text) {
+	// 					user.sentText(event.message.text);
+	// 				}
+	// 			}
+	// 		});
+	// 	});
+	// }
 	res.sendStatus(200);
 })
 
@@ -121,7 +121,7 @@ function sendTextMessage(sender, text) {
 		text: text
 	}
 	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
+		url: 'https://graph.facebook.com/v2.8/me/messages',
 		qs: {
 			access_token: token
 		},
@@ -152,7 +152,7 @@ function sendImage(sender, imageURL) {
 		}
 	}
 	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
+		url: 'https://graph.facebook.com/v2.8/me/messages',
 		qs: {
 			access_token: token
 		},
