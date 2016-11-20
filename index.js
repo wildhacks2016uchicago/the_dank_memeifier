@@ -71,12 +71,11 @@ class User {
 			text_on_image_Promise.then(() => {
 				console.log("sending image to url " + url);
 				sendImage(this.id, url);
-				this.state = 0;
-				return;
 			}).catch((reason) => {
 				// Log the rejection reason
 				console.log('Handle rejected promise ('+reason+') here.');
 			});
+			this.state = 0;
 		}
 	}
 
