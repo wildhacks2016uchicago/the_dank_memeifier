@@ -124,6 +124,7 @@ function sendTextMessage(sender, text) {
 	let messageData = {
 		text: text
 	}
+	console.log("sending message '" + text + "' to user id " + sender)
 	request({
 		url: 'https://graph.facebook.com/v2.8/me/messages',
 		qs: {
