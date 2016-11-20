@@ -6,7 +6,7 @@ var fs = require('fs'),
 		imageMagick: true
 	});
 
-function text_on_image(original_picture, text, userid) {
+function main(original_picture, text) {
 	var resize_promise = new Promise(function(resolve, reject) {
 		gm(original_picture)
 			.resize(200, 200)
@@ -63,7 +63,7 @@ function text_on_image(original_picture, text, userid) {
 		return new Promise(function(resolve, reject) {
 			gm('writingsomething.jpg')
 				.append('kittens3.jpg')
-				.write('static/images/' + userid + '-output.png', function(err) {
+				.write('final.png', function(err) {
 					if (!err) {
 						resolve("Append caption worked!");
 						console.log('WORKED: Appending Worked.');
@@ -80,7 +80,7 @@ function text_on_image(original_picture, text, userid) {
 	});
 }
 
-// main('therock.jpg', "this is rly dumb");
+main('therock.jpg', "this is rly dumb");
 
 //
 // 	resize_picture(original_picture);
